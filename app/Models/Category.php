@@ -20,4 +20,12 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
+    protected static function booted()
+    {
+        static::deleting(function ($category) {
+            // Soft delete all related products when the category is soft deleted
+            $category->products()->delete();
+        });
+    }
+
 }

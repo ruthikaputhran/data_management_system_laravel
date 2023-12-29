@@ -12,7 +12,7 @@ class CategoryController extends Controller
     {
 
 
-        return view('create_category');
+        return view('create_category',['isEdit'=>0, 'data'=>[]]);
     }
 
     public function addCategory(Request $request)
@@ -59,6 +59,40 @@ class CategoryController extends Controller
         }
 
         return redirect()->back()->with('error', 'Record not found');
+    }
+
+    public function editCategory($id) {
+        if($id!=null){
+            $data = Category::where('id',$id)
+            ->first(); 
+
+            $dataObj = array(
+                'name'=>$data->name,
+                'description'=> $data->description,
+                'id' =>$data->id,
+              );
+    
+        }
+        return view('create_category',['isEdit'=>1, 'data'=>$dataObj]);        
+    }
+
+    public function updateCategory(Request $request) {
+        try {
+            $category = Category::findOrFail($request->id);
+
+            $request->validate([
+                'name' => 'required|string|max:250',
+            ]);
+    
+            $category->name = $request->input('name');
+            $category->description = $request->input('description');
+            $category->update();
+    
+            return back()->with('message', 'Successffully updated the category!');
+   
+        } catch (\Exception $e) {
+            return back()->with('error', ['errorMessage' => $e->getMessage()]);
+        }
     }
 
 }

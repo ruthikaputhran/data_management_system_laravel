@@ -36,7 +36,7 @@ Route::get('/otp/verify', [OtpVerificationController::class, 'showVerificationFo
 Route::post('verifyOtp', [OtpVerificationController::class, 'verifyOtp'])->name('verifyOtp');
 
 
-Route::post('/logout', [RegisterController::class, 'logout'])->name('logout');
+Route::get('/logout', [RegisterController::class, 'logout'])->name('logout');
 
 //dashboard
 Route::group(['middleware' => ['auth', 'verified']], function () {
@@ -57,6 +57,8 @@ Route::group(['middleware' => ['can:category_module']], function () {  // access
     Route::post('/addCategory', [CategoryController::class, 'addCategory'])->name('addCategory');
     Route::get('/viewCategory', [CategoryController::class, 'viewCategory'])->name('viewCategory');
     Route::delete('/deleteCategory/{id}', [CategoryController::class, 'deleteCategory'])->name('deleteCategory');
+    Route::get('/editCategory/{id}', [CategoryController::class, 'editCategory'])->name('editCategory');
+    Route::post('/updateCategory', [CategoryController::class, 'updateCategory'])->name('updateCategory');
 });
 
 
@@ -65,6 +67,8 @@ Route::group(['middleware' => ['can:product_module']], function () {  // access 
     Route::post('/addProduct', [ProductController::class, 'addProduct'])->name('addProduct');
     Route::get('/viewProduct', [ProductController::class, 'viewProduct'])->name('viewProduct');
     Route::delete('/deleteProduct/{id}', [ProductController::class, 'deleteProduct'])->name('deleteProduct');
+    Route::get('/editProduct/{id}', [ProductController::class, 'editProduct'])->name('editProduct');
+    Route::post('/updateProduct', [ProductController::class, 'updateProduct'])->name('updateProduct');
 });
 
 Route::get('/export-excel', [ExcelController::class, 'export'])->name('export-excel');

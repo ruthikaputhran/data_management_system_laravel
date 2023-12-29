@@ -68,7 +68,7 @@ class RegisterController extends Controller
             $user = Auth::user();
 
             // Generate and send OTP
-            $otp =  rand(1000,9999);
+            $otp =  rand(100000, 999999);
             $user->update(['otp_secret' => $otp]);
 
             // Send OTP to the user's email (use your mail class here)

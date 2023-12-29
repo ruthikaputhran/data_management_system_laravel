@@ -47,24 +47,24 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form action="{{ route('addProduct') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ $isEdit == 0 ? route('addProduct') : route('updateProduct') }}" method="post" enctype="multipart/form-data">
               @csrf
               <div class="card-body">
 
                 <div class="form-group">
                   <label for="exampleInputName">Product Name</label>
-                  <input type="text" class="form-control" name="name" placeholder="Enter Product name">
+                  <input type="text" class="form-control" name="name" value="{{ $isEdit == 1 ? $data['name'] : '' }}" placeholder="Enter Product name">
                 </div>
 
 
                 <div class="form-group">
                   <label>Product Description</label>
-                  <textarea class="form-control" name="description" placeholder="Enter product description"></textarea>
+                  <textarea class="form-control" name="description" placeholder="Enter product description">{{ $isEdit == 1 ? $data['description'] : '' }}</textarea>
                 </div>
 
                 <div class="form-group col-4">
                   <label for="exampleInputName">Price</label>
-                  <input type="text" class="form-control" name="price" placeholder="Enter price">
+                  <input type="text" class="form-control" name="price" value="{{ $isEdit == 1 ? $data['name'] : '' }}" placeholder="Enter price">
                 </div>
 
 
@@ -72,10 +72,11 @@
                 <div class="form-group">
                   <label for="category" class="col-md-4 col-form-label text-md-end text-start">Category</label>
                   <div class="col-md-4">
-                  
+                    <!-- $item->category?->name -->
+                    
                     <select class="form-control" name="category" id="category">
-                    @foreach ($category as $readCat)
-                  
+                      @foreach ($category as $readCat)
+
                       <option value="{{$readCat->id}}">{{$readCat->name}}</option>
 
                       @endforeach
@@ -89,7 +90,8 @@
                 </div>
 
               </div>
-              <!-- /.card-body -->
+
+            <input type="hidden" name="id" value="{{ $isEdit == 1 ? $data['id'] : '' }}">
 
               <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
